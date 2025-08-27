@@ -1,0 +1,46 @@
+[
+  {
+    "objectID": "pages/combining.html",
+    "href": "pages/combining.html",
+    "title": "Combining Excel and Delimited Data",
+    "section": "",
+    "text": "Answers go here!",
+    "crumbs": [
+      "Home",
+      "Combining Excel and Delimited Data"
+    ]
+  },
+  {
+    "objectID": "pages/concepts.html",
+    "href": "pages/concepts.html",
+    "title": "Conceptual Questions",
+    "section": "",
+    "text": "Answers go here!",
+    "crumbs": [
+      "Home",
+      "Conceptual Questions"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "An example pages site with multiple pages and a table of contents.\nThis could be a landing page for the site. Feel free to put whatever here!",
+    "crumbs": [
+      "Home",
+      "Homework 4"
+    ]
+  },
+  {
+    "objectID": "pages/read_delimited.html",
+    "href": "pages/read_delimited.html",
+    "title": "Reading Delimited Data",
+    "section": "",
+    "text": "Answers go here!",
+    "crumbs": [
+      "Home",
+      "Reading Delimited Data"
+    ]
+  }
+]
