@@ -6,5 +6,99 @@ editor_options:
   chunk_output_type: inline
 ---
 
+```{r}
+# setup 
+# Load packages
+library(tidyverse)
+library(readr)
 
-Answers go here!
+```
+
+
+## Glass Data
+Step 1 — Read from URL + add column names
+```{r}
+glass_url <- "https://www4.stat.ncsu.edu/~online/datasets/glass.data"
+
+# Assign meaningful column names (dataset lacks headers).
+glass <- read_csv(
+  glass_url,
+  col_names = c("Id","RI","Na","Mg","Al","Si","K","Ca","Ba","Fe","Type"),
+  show_col_types = FALSE
+)
+
+# print data
+glass
+```
+
+Step 2/3 — Overwrite numeric Type with character labels, and filter observations where the Fe variable is less than 0.2 and the Type of Glass is either “tableware” or “headlamps”.
+```{r}
+# Recode the class numbers to human-readable labels using mutate() + recode().
+glass2 <- glass |>
+  mutate(
+    Type = recode(
+      Type,
+      `1`="building_windows_float_processed",
+      `2`="building_windows_non_float_processed",
+      `3`="vehicle_windows_float_processed",
+      `4`="vehicle_windows_non_float_processed",
+      `5`="containers",
+      `6`="tableware",
+      `7`="headlamps"
+    )
+  ) |>
+  # Keep only chemically low-iron glass and two target classes.
+  filter(Fe < 0.2, Type %in% c("tableware","headlamps"))
+
+glass2
+
+```
+
+## Yeast Data
+
+Step 1 — Read from URL + add column names
+```{r}
+yeast_url <- "https://www4.stat.ncsu.edu/~online/datasets/yeast.data"
+
+yeast <- read_table(
+  yeast_url,
+  col_names = c("seq_name","mcg","gvh","alm","mit","erl","pox","vac","nuc","class"),
+  col_types = cols(
+    seq_name = col_character(),
+    mcg = col_double(),
+    gvh = col_double(),
+    alm = col_double(),
+    mit = col_double(),
+    erl = col_double(),
+    pox = col_double(),
+    vac = col_double(),
+    nuc = col_double(),
+    class = col_character()
+  )
+)
+
+yeast
+
+```
+
+Step 2/3 — Remove seq_name and nuc, and within each class, add mean and median for each numeric variable
+```{r}
+yeast2 <- yeast |>
+  # Drop the ID-like column and the nuc signal column 
+  select(-seq_name, -nuc) |>
+  # Group by localization class; for each numeric column, append _mean and _median.
+  group_by(class) |>
+  mutate(
+    across(
+      .cols = c(mcg, gvh, alm, mit, erl, pox, vac),
+      .fns  = list(mean = ~mean(.x, na.rm=TRUE),
+                   median = ~median(.x, na.rm=TRUE)),
+      .names = "{.col}_{.fn}"
+    )
+  ) |>
+  ungroup()
+
+yeast2
+
+```
+

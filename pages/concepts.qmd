@@ -5,6 +5,38 @@ toc: TRUE
 editor_options: 
   chunk_output_type: inline
 ---
+  
+1. If your working directory is `myfolder/homework/`, what relative path would you specify to get the file located at `myfolder/MyData.csv`?
+
+> `../MyData.csv`
+
+2. What are the major benefits of using R projects?
+
+> - Since there are often multiple files associated with analyses, it can make it difficult to keep analyses separate. R projects alleviates this.  
+> - It provides a way to divide work into multiple contexts, each with their own working directory, work space, history, and folder structure/source documents.
+
+3. What is git and what is github?
+
+> **Git** is a version control software. 
+> **GitHub** is an online hosting service for Git-based projects.
+
+4. What are the two main differences between a tibble and a data.frame?
+
+> - The two main differences are how they handle printing and data handling/behavior.
+> - When you print a data frame, it displays all rows and columns. While a tibble shows only the first 10 rows and the columns that fit on the screen.
+> - Also, Data frames automatically convert character strings to factors. However, tibbles do not do this; they preserve the original input data type.
+
+5. Rewrite the following nested function call using Base R’s chaining operator:  
+`arrange(filter(select(as_tibble(iris), starts_with("Petal"), Species), Petal.Length < 1.55), Species)`
+
+> ```r
+> library(dplyr)
+> library(tibble)
+> 
+> as_tibble(iris) |>
+>   select(starts_with("Petal"), Species) |>
+>   filter(Petal.Length < 1.55) |>
+>   arrange(Species)
+> ```
 
 
-Answers go here!

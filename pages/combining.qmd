@@ -1,9 +1,121 @@
 ---
 title: "Combining Excel and Delimited Data"
 format: html
+execute-dir: project
 toc: TRUE
 editor_options: 
   chunk_output_type: inline
 ---
 
-Answers go here!
+```{r}
+# setup
+library(tidyverse)
+library(readr)
+library(readxl)
+
+```
+
+Step 1 — Read the white wine Excel (Sheet 1)
+```{r}
+# Read the first worksheet 
+white <- read_xlsx("../white-wine.xlsx", sheet = 1)
+
+# print data
+white
+
+```
+
+Step 2 — Read cleaned names from Sheet 2 and apply
+```{r}
+# Sheet 2 contains alternative, standard-compliant variable names (one column).
+alt_names <- read_xlsx("../white-wine.xlsx", sheet = 2)
+
+# Use the first (only) column as a character vector of names.
+new_names <- alt_names[[1]]
+
+# only rename if lengths match.
+if (length(new_names) == ncol(white)) {
+  colnames(white) <- new_names
+} else {
+  warning("Alt names length does not match columns; keeping original names.")
+}
+
+# Tag all rows as white wine.
+white <- white |>
+  mutate(type = "white")
+
+white
+
+```
+Step 3 — Read the red wine CSV (semicolon-delimited), rename the same way, tag as red
+```{r}
+# read red wine url
+red_url <- "https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv"
+
+red <- read_delim(red_url, delim = ";", show_col_types = FALSE)
+
+# Reuse the same cleaned names so columns align perfectly.
+if (exists("new_names") && length(new_names) == ncol(red)) {
+  colnames(red) <- new_names
+} else {
+  warning("Using original column names for red; verify they match white before binding.")
+}
+
+# Tag all rows as red wine.
+red <- red |>
+  mutate(type = "red")
+
+red
+```
+
+Step 4 — Combine rows (white + red)
+```{r}
+# Bind rows (same columns), getting a unified dataset.
+wine_all <- dplyr::bind_rows(white, red)
+
+wine_all
+
+```
+Step 5 — Filter quality > 6.5 and alcohol < 132
+```{r}
+# Focus on higher-quality wines and remove unrealistic alcohol values (per assignment).
+wine_filtered <- wine_all |>
+  filter(quality > 6.5, alcohol < 132)
+
+wine_filtered
+
+```
+
+Step 6 — Sort descending by quality
+```{r}
+# Put best wines at the top.
+wine_sorted <- wine_filtered |>
+  arrange(desc(quality))
+
+wine_sorted
+
+```
+Step 7 — Keep only acid-related vars + alcohol + type + quality
+```{r}
+# Select any variable containing the substring "acid" (works for names with spaces or underscores), plus alcohol, type, and quality.
+wine_keep <- wine_sorted |>
+  select(contains("acid"), alcohol, type, quality)
+
+wine_keep
+
+```
+
+Step 8 — Within each quality, add alcohol mean and sd
+```{r}
+# Group by the discrete quality score; append per-quality alcohol mean/sd to every row.
+wine_final <- wine_keep |>
+  group_by(quality) |>
+  mutate(
+    alcohol_mean = mean(alcohol, na.rm = TRUE),
+    alcohol_sd   = sd(alcohol,   na.rm = TRUE)
+  ) |>
+  ungroup()
+
+wine_final
+```
+

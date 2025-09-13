@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-08-27">
+<meta name="dcterms.date" content="2025-09-13">
 
 <title>Reading Delimited Data – Homework 4 Site</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -38,10 +72,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-7baa60bbbc7aaa0ccd919fa97435263c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -160,8 +194,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#glass-data" id="toc-glass-data" class="nav-link active" data-scroll-target="#glass-data">Glass Data</a></li>
+  <li><a href="#yeast-data" id="toc-yeast-data" class="nav-link" data-scroll-target="#yeast-data">Yeast Data</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -179,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-08-27</p>
+      <p class="date">2025-09-13</p>
     </div>
   </div>
   
@@ -191,9 +232,176 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Answers go here!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setup </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="glass-data" class="level2">
+<h2 class="anchored" data-anchor-id="glass-data">Glass Data</h2>
+<p>Step 1 — Read from URL + add column names</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>glass_url <span class="ot">&lt;-</span> <span class="st">"https://www4.stat.ncsu.edu/~online/datasets/glass.data"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign meaningful column names (dataset lacks headers).</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>glass <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  glass_url,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"Id"</span>,<span class="st">"RI"</span>,<span class="st">"Na"</span>,<span class="st">"Mg"</span>,<span class="st">"Al"</span>,<span class="st">"Si"</span>,<span class="st">"K"</span>,<span class="st">"Ca"</span>,<span class="st">"Ba"</span>,<span class="st">"Fe"</span>,<span class="st">"Type"</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print data</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>glass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 214 × 11
+      Id    RI    Na    Mg    Al    Si     K    Ca    Ba    Fe  Type
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1  1.52  13.6  4.49  1.1   71.8  0.06  8.75     0  0        1
+ 2     2  1.52  13.9  3.6   1.36  72.7  0.48  7.83     0  0        1
+ 3     3  1.52  13.5  3.55  1.54  73.0  0.39  7.78     0  0        1
+ 4     4  1.52  13.2  3.69  1.29  72.6  0.57  8.22     0  0        1
+ 5     5  1.52  13.3  3.62  1.24  73.1  0.55  8.07     0  0        1
+ 6     6  1.52  12.8  3.61  1.62  73.0  0.64  8.07     0  0.26     1
+ 7     7  1.52  13.3  3.6   1.14  73.1  0.58  8.17     0  0        1
+ 8     8  1.52  13.2  3.61  1.05  73.2  0.57  8.24     0  0        1
+ 9     9  1.52  14.0  3.58  1.37  72.1  0.56  8.3      0  0        1
+10    10  1.52  13    3.6   1.36  73.0  0.57  8.4      0  0.11     1
+# ℹ 204 more rows</code></pre>
+</div>
+</div>
+<p>Step 2/3 — Overwrite numeric Type with character labels, and filter observations where the Fe variable is less than 0.2 and the Type of Glass is either “tableware” or “headlamps”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recode the class numbers to human-readable labels using mutate() + recode().</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>glass2 <span class="ot">&lt;-</span> glass <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">recode</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      Type,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"building_windows_float_processed"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">2</span><span class="st">`</span><span class="ot">=</span><span class="st">"building_windows_non_float_processed"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">3</span><span class="st">`</span><span class="ot">=</span><span class="st">"vehicle_windows_float_processed"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">4</span><span class="st">`</span><span class="ot">=</span><span class="st">"vehicle_windows_non_float_processed"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">5</span><span class="st">`</span><span class="ot">=</span><span class="st">"containers"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">6</span><span class="st">`</span><span class="ot">=</span><span class="st">"tableware"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">7</span><span class="st">`</span><span class="ot">=</span><span class="st">"headlamps"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Keep only chemically low-iron glass and two target classes.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Fe <span class="sc">&lt;</span> <span class="fl">0.2</span>, Type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"tableware"</span>,<span class="st">"headlamps"</span>))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>glass2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38 × 11
+      Id    RI    Na    Mg    Al    Si     K    Ca    Ba    Fe Type     
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
+ 1   177  1.52  14    2.39  1.56  72.4  0     9.57  0        0 tableware
+ 2   178  1.52  13.8  2.41  1.19  72.8  0     9.77  0        0 tableware
+ 3   179  1.52  14.5  2.24  1.62  72.4  0     9.26  0        0 tableware
+ 4   180  1.52  14.1  2.19  1.66  72.7  0     9.32  0        0 tableware
+ 5   181  1.51  14.4  1.74  1.54  74.6  0     7.59  0        0 tableware
+ 6   182  1.52  15.0  0.78  1.74  72.5  0     9.95  0        0 tableware
+ 7   183  1.52  14.2  0     2.09  72.7  0    10.9   0        0 tableware
+ 8   184  1.52  14.6  0     0.56  73.5  0    11.2   0        0 tableware
+ 9   185  1.51  17.4  0     0.34  75.4  0     6.65  0        0 tableware
+10   186  1.51  13.7  3.2   1.81  72.8  1.76  5.43  1.19     0 headlamps
+# ℹ 28 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="yeast-data" class="level2">
+<h2 class="anchored" data-anchor-id="yeast-data">Yeast Data</h2>
+<p>Step 1 — Read from URL + add column names</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>yeast_url <span class="ot">&lt;-</span> <span class="st">"https://www4.stat.ncsu.edu/~online/datasets/yeast.data"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>yeast <span class="ot">&lt;-</span> <span class="fu">read_table</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  yeast_url,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"seq_name"</span>,<span class="st">"mcg"</span>,<span class="st">"gvh"</span>,<span class="st">"alm"</span>,<span class="st">"mit"</span>,<span class="st">"erl"</span>,<span class="st">"pox"</span>,<span class="st">"vac"</span>,<span class="st">"nuc"</span>,<span class="st">"class"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">seq_name =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mcg =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvh =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alm =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mit =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">erl =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">pox =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">vac =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">nuc =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="fu">col_character</span>()</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>yeast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,484 × 10
+   seq_name     mcg   gvh   alm   mit   erl   pox   vac   nuc class
+   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+ 1 ADT1_YEAST  0.58  0.61  0.47  0.13   0.5   0    0.48  0.22 MIT  
+ 2 ADT2_YEAST  0.43  0.67  0.48  0.27   0.5   0    0.53  0.22 MIT  
+ 3 ADT3_YEAST  0.64  0.62  0.49  0.15   0.5   0    0.53  0.22 MIT  
+ 4 AAR2_YEAST  0.58  0.44  0.57  0.13   0.5   0    0.54  0.22 NUC  
+ 5 AATM_YEAST  0.42  0.44  0.48  0.54   0.5   0    0.48  0.22 MIT  
+ 6 AATC_YEAST  0.51  0.4   0.56  0.17   0.5   0.5  0.49  0.22 CYT  
+ 7 ABC1_YEAST  0.5   0.54  0.48  0.65   0.5   0    0.53  0.22 MIT  
+ 8 BAF1_YEAST  0.48  0.45  0.59  0.2    0.5   0    0.58  0.34 NUC  
+ 9 ABF2_YEAST  0.55  0.5   0.66  0.36   0.5   0    0.49  0.22 MIT  
+10 ABP1_YEAST  0.4   0.39  0.6   0.15   0.5   0    0.58  0.3  CYT  
+# ℹ 1,474 more rows</code></pre>
+</div>
+</div>
+<p>Step 2/3 — Remove seq_name and nuc, and within each class, add mean and median for each numeric variable</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>yeast2 <span class="ot">&lt;-</span> yeast <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Drop the ID-like column and the nuc signal column </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>seq_name, <span class="sc">-</span>nuc) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Group by localization class; for each numeric column, append _mean and _median.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(mcg, gvh, alm, mit, erl, pox, vac),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns  =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span><span class="fu">mean</span>(.x, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">median =</span> <span class="sc">~</span><span class="fu">median</span>(.x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>yeast2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,484 × 22
+     mcg   gvh   alm   mit   erl   pox   vac class mcg_mean mcg_median gvh_mean
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1  0.58  0.61  0.47  0.13   0.5   0    0.48 MIT      0.521       0.51    0.533
+ 2  0.43  0.67  0.48  0.27   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 3  0.64  0.62  0.49  0.15   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 4  0.58  0.44  0.57  0.13   0.5   0    0.54 NUC      0.452       0.45    0.456
+ 5  0.42  0.44  0.48  0.54   0.5   0    0.48 MIT      0.521       0.51    0.533
+ 6  0.51  0.4   0.56  0.17   0.5   0.5  0.49 CYT      0.481       0.48    0.470
+ 7  0.5   0.54  0.48  0.65   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 8  0.48  0.45  0.59  0.2    0.5   0    0.58 NUC      0.452       0.45    0.456
+ 9  0.55  0.5   0.66  0.36   0.5   0    0.49 MIT      0.521       0.51    0.533
+10  0.4   0.39  0.6   0.15   0.5   0    0.58 CYT      0.481       0.48    0.470
+# ℹ 1,474 more rows
+# ℹ 11 more variables: gvh_median &lt;dbl&gt;, alm_mean &lt;dbl&gt;, alm_median &lt;dbl&gt;,
+#   mit_mean &lt;dbl&gt;, mit_median &lt;dbl&gt;, erl_mean &lt;dbl&gt;, erl_median &lt;dbl&gt;,
+#   pox_mean &lt;dbl&gt;, pox_median &lt;dbl&gt;, vac_mean &lt;dbl&gt;, vac_median &lt;dbl&gt;</code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -278,8 +486,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -390,7 +596,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
